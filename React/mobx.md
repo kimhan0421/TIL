@@ -27,3 +27,70 @@ Observable State 만듦.
 - reaction
 
 특정 값이 바뀔때 감지해서 **어떤 일을 하고 싶어요**!
+
+- computed
+
+연산된 값을 사용하고 싶어요
+
+BUT! 변화가 일어날 때마다 특정 작업을 처리하는 것이 아니다
+
+의존하는 값이 바뀔 때 미리 계산해 놓고 조회할때는 캐싱 된 데이터를 사용한다.
+
+```javascript
+import { observable, reaction, computed, autorun } from "mobx";
+
+const calculator = observable({
+  a: 1,
+  b: 2
+}); //관찰 받고 있는 상태
+
+//특정값 바뀌면 특정 작업허가
+reaction(
+  () => calculator.a,
+  (value, reaction) => {
+    console.log(`a값이 ${value}값으로 바뀌었다`);
+  }
+);
+
+reaction(
+  () => calculator.b,
+  (value, reaction) => {
+    console.log(`b값이 ${value}로 바뀌었네요`);
+  }
+);
+
+const sum = computed(() => { // 특정 값 캐싱
+  console.log("계산중이다");
+  return calculator.a + calculator.b; //처음에는 3
+});
+
+sum.observe(() => calculator.a); //a 변화를 보고 있다.
+sum.observe(() => calculator.b); //b 변화를 보고 있다.
+
+//computed 이후에 값의 변화를 주어야 변화를 볼 수 있음
+calculator.a = 30; // sum은 32
+calculator.b = 40; //sum은 70
+
+//여러번 조회해도 값은 일정 
+console.log(sum.value); // 70
+console.log(sum.value); // 70
+
+calculator.a = 50; //a변화 감지해서 
+// reaction이 반응, 
+// sum.observe로 a의 변화를 보고 있기 때문에, 
+// computed된 sum이 console.log를 출력하고,
+console.log(sum.value); // sum은 90
+
+=>
+계산중이다 
+a값이 30값으로 바뀌었다 
+계산중이다 
+b값이 40로 바뀌었네요 
+계산중이다 
+2
+70 
+70
+a값이 50값으로 바뀌었다 
+계산중이다 
+90
+```
