@@ -94,3 +94,11 @@ a값이 50값으로 바뀌었다
 계산중이다 
 90
 ```
+
+- autorun
+
+reaction과 computed의 observe대신 사용 할 수 있다
+
+computed로 만든 값의 .get()함수를 호출해주면, 값 하나하나를 observe하지 않아도 된다.
+
+즉, 변화를 보고있다고 일일이 지정해주지 않아도 된다
