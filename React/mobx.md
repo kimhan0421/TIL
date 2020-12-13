@@ -102,3 +102,39 @@ reaction과 computed의 observe대신 사용 할 수 있다
 computed로 만든 값의 .get()함수를 호출해주면, 값 하나하나를 observe하지 않아도 된다.
 
 즉, 변화를 보고있다고 일일이 지정해주지 않아도 된다
+
+```javascript
+import { observable, reaction, computed, autorun } from "mobx";
+
+const calculator = observable({
+  a: 1,
+  b: 2
+});
+
+const sum = computed(() => {
+  console.log("계산중이다");
+  return calculator.a + calculator.b;
+});
+
+autorun(() => console.log(`a값이 ${calculator.a}값으로 바뀌었다`));
+autorun(() => console.log(`a값이 ${calculator.b}값으로 바뀌었다`));
+autorun(() => sum.get()); 
+//sum에서 a,b를 보고 있으니까, get()으로 보고 있다. _ ${calculator.a}, ${calculator.b}
+//따라서, observe를 사용하지 않아도 된다. 
+//    + reaction의 일을 지정해주면 reaction도 사용하지 않아도 된다. _ console.log
+
+calculator.a = 30;
+calculator.b = 40;
+
+console.log(sum.value);
+
+=>
+a값이 1값으로 바뀌었다 
+a값이 2값으로 바뀌었다 
+계산중이다 
+a값이 30값으로 바뀌었다 
+계산중이다 
+a값이 40값으로 바뀌었다 
+계산중이다 
+70
+```
