@@ -181,3 +181,34 @@ sayHello = sayYo(sayHello)
 1. target => 현재 인스턴스 객체의 클래스   
 2. key => 데코레이터를 적용할 속성 이름   
 3. descriptor => 해당 속성의 설명자 객체   
+
+```
+decorate(GS25, {
+  basket: observable,
+  total: computed,
+  select: action
+});
+```
+GS25 ⇒ class 이름
+```
+class GS25 {
+  basket = [];
+
+  get total() {
+    console.log('계산중입니다..!');
+    // Reduce 함수로 배열 내부의 객체의 price 총합 계산
+    return this.basket.reduce((prev, curr) => prev + curr.price, 0);
+  }
+
+  select(name, price) {
+    this.basket.push({ name, price });
+  }
+}
+==>
+const gs25 = new GS25();
+autorun(() => gs25.total);
+gs25.select('물', 800);
+gs25.select('물', 800);
+gs25.select('포카칩', 1500);
+```
+⇒ total()이 처음 + 부를때마다 계산이 계속 됨
