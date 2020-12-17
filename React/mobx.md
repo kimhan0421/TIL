@@ -212,3 +212,18 @@ gs25.select('물', 800);
 gs25.select('포카칩', 1500);
 ```
 ⇒ total()이 처음 + 부를때마다 계산이 계속 됨
+
+액션이 끝나고 reaction을 하고 싶어요.
+⇒ transaction으로 감싸면 모든 액션이 끝나고 난 다음에 reaction이 나타나게 해줄 수 있다. (단, import로 transaction를 불러와야 한다.)
+
+```
+const gs25 = new GS25();
+autorun(() => gs25.total);
+
+transaction(() => {
+  gs25.select('물', 800);
+  gs25.select('물', 800);
+  gs25.select('포카칩', 1500);
+})
+```
+- 즉, select가 action임을 명시하고, transaction으로 reaction이 가장 처음 한번, transaction 끝나고 한번 호출 할 수 있도록 한다.
