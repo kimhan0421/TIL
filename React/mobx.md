@@ -94,3 +94,136 @@ a값이 50값으로 바뀌었다
 계산중이다 
 90
 ```
+
+- autorun
+
+reaction과 computed의 observe대신 사용 할 수 있다
+
+computed로 만든 값의 .get()함수를 호출해주면, 값 하나하나를 observe하지 않아도 된다.
+
+즉, 변화를 보고있다고 일일이 지정해주지 않아도 된다
+
+```javascript
+import { observable, reaction, computed, autorun } from "mobx";
+
+const calculator = observable({
+  a: 1,
+  b: 2
+});
+
+const sum = computed(() => {
+  console.log("계산중이다");
+  return calculator.a + calculator.b;
+});
+
+autorun(() => console.log(`a값이 ${calculator.a}값으로 바뀌었다`));
+autorun(() => console.log(`a값이 ${calculator.b}값으로 바뀌었다`));
+autorun(() => sum.get()); 
+//sum에서 a,b를 보고 있으니까, get()으로 보고 있다. _ ${calculator.a}, ${calculator.b}
+//따라서, observe를 사용하지 않아도 된다. 
+//    + reaction의 일을 지정해주면 reaction도 사용하지 않아도 된다. _ console.log
+
+calculator.a = 30;
+calculator.b = 40;
+
+console.log(sum.value);
+
+=>
+a값이 1값으로 바뀌었다 
+a값이 2값으로 바뀌었다 
+계산중이다 
+a값이 30값으로 바뀌었다 
+계산중이다 
+a값이 40값으로 바뀌었다 
+계산중이다 
+70
+```
+
+### 예시
+
+- action
+이전에 상태에 변화를 일으키는 것이 action인데, 
+
+이를 사용하면,  Mobx개발자도구에서 정보의 변화를 볼 수 있다.
+
+#### decorate 함수 사용
+- decorate 함수
+⇒  파이썬의 데코레이터가 자바스크립트에서의 데코레이터가 작동하는 방식보다 더 단순하기 때문에 파이썬의 데코레이터로 설명하겠다.
+- 자바스크립트의 정식 기능이 아니다   
+- "데코레이터 함수"의 약자.
+- **새 함수를 반환해 전달된 함수 또는 메서드의 동작을 수정하는 함수**이다. 즉, 함수를 인자로 하고 반환값도 함수이다.
+
+- 예시 - python)
+파이썬의 파이(@)를 사용해서 함수를 불러왔다.
+```python
+def sayYo(fn):
+  def wrap():
+    print("say")
+    fn()
+    print("say")
+  return wrap
+
+@sayYo
+def sayHello():
+  print("hello")
+
+sayHello()
+```
+파이썬의 파이(@)를 사용해서 함수를 불러왔다.
+```
+sayHello = sayYo(sayHello)
+```
+- 그래서, 파이썬과 자바스크립트의 데코레이터가 뭐가 달라요?
+파이썬 - 함수의 모든 인자를 전달받음   
+자바스크립트 - 자바스크립트의 객체의 작동방식 때문에 정보가 더 필요
+
+- 자바스크립트에서 데코레이터
+1. target => 현재 인스턴스 객체의 클래스   
+2. key => 데코레이터를 적용할 속성 이름   
+3. descriptor => 해당 속성의 설명자 객체   
+
+```
+decorate(GS25, {
+  basket: observable,
+  total: computed,
+  select: action
+});
+```
+GS25 ⇒ class 이름
+```
+class GS25 {
+  basket = [];
+
+  get total() {
+    console.log('계산중입니다..!');
+    // Reduce 함수로 배열 내부의 객체의 price 총합 계산
+    return this.basket.reduce((prev, curr) => prev + curr.price, 0);
+  }
+
+  select(name, price) {
+    this.basket.push({ name, price });
+  }
+}
+==>
+const gs25 = new GS25();
+autorun(() => gs25.total);
+gs25.select('물', 800);
+gs25.select('물', 800);
+gs25.select('포카칩', 1500);
+```
+⇒ total()이 처음 + 부를때마다 계산이 계속 됨
+
+액션이 끝나고 reaction을 하고 싶어요.
+⇒ transaction으로 감싸면 모든 액션이 끝나고 난 다음에 reaction이 나타나게 해줄 수 있다. (단, import로 transaction를 불러와야 한다.)
+
+```
+const gs25 = new GS25();
+autorun(() => gs25.total);
+
+transaction(() => {
+  gs25.select('물', 800);
+  gs25.select('물', 800);
+  gs25.select('포카칩', 1500);
+})
+```
+- 즉, select가 action임을 명시하고, transaction으로 reaction이 가장 처음 한번, transaction 끝나고 한번 호출 할 수 있도록 한다.
