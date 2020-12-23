@@ -23,4 +23,4 @@
 
 ## TypeScript
 
-- [TypeChain](https://github.com/kimhan0421/TIL/tree/master/TypeScript/Type)
+- [TypeChain](https://github.com/kimhan0421/TIL/tree/master/TypeScript/TypeChain)
