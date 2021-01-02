@@ -24,3 +24,10 @@
 ## TypeScript
 
 - [TypeChain](https://github.com/kimhan0421/TIL/tree/master/TypeScript/TypeChain)
+
+## GraphQL
+
+- [Theory](https://github.com/kimhan0421/TIL/blob/master/GraphQL/Theory.md)
+- [Movie_ql](https://github.com/kimhan0421/TIL/tree/master/GraphQL/Movie_ql)
+
+## [NestJS](https://github.com/kimhan0421/TIL/tree/master/NestJS)
