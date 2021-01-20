@@ -29,3 +29,12 @@
 ⇒ pages/post/[...all].js인 경우 route는 '/post/\*'
 
 즉, '/post/2020/id/title'
+
+## Linking Between Pages
+
+- client-side route와 같은 방식을 따름
+- single-page application과 비슷한 방식
+
+`import Link from 'next/link'` 후 `<Link href='/' />`
+
+이때, pages는 자동적으로 인식
