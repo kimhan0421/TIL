@@ -38,3 +38,32 @@
 `import Link from 'next/link'` 후 `<Link href='/' />`
 
 이때, pages는 자동적으로 인식
+
+### Linking to Dynamic Paths
+
+예시상황:
+
+Post 컴퍼넌트에서 posts를 부모로부터 받아오고, map으로 post를 접근해서, {post.title}로 표시한 후 link를 걸고 싶어요
+
+```javascript
+import Link from "next/link";
+
+function Post({ posts }) {
+  return (
+    <>
+      {posts.map((post) => (
+        <li key={post.id}>
+          <Link
+            href={{
+              pathname: "/blog/[slug]",
+              query: { slug: post.slug },
+            }}
+          >
+            <a>{post.title}</a>
+          </Link>
+        </li>
+      ))}
+    </>
+  );
+}
+```
