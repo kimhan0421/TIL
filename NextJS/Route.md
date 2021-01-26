@@ -67,3 +67,23 @@ function Post({ posts }) {
   );
 }
 ```
+
+### Injecting the Router(Router 객체를 이용해 페이지 이동하기)
+
+```jsx
+import Router from "next/router";
+
+export default function Page2() {
+  return (
+    <div>
+      <button onClick={() => Router.push("/")}>home으로 이동</button>
+    </div>
+  );
+}
+```
+
+⇒ `import Router from 'next/router';` 사용
+
+⇒ Router객체를 이용하는 것과 Link컴포넌트를 사용하는 것의 기능적 차이는 없다.
+
+BUT! Router 객체가 동적인 코드에 적합하다.
