@@ -17,3 +17,30 @@ styled-components에서 제공하는 바벨 플러그인을 이용해서 서버�
 여기서 말하는 바벨 설정이란, .babelrc파일을 만들어 코드를 작성하는 것이다.
 
 바벨과 웹팩 설정을 변경할 수 없게 하는 create-react-app과 비교되는 부분이다.
+
+```jsx
+{
+    "presets": ["next/babel"],
+    "plugins": ["styled-components"]
+}
+```
+
+"presets": ["next/babel"] → next/babel 프리셋은 항상 포함시켜야 한다.
+
+"plugins": ["styled-components"] → 제공하는 플러그인을 설정한다.
+
+참고자료 : 실전 리액트 프로그래밍(이재승)
+
+- 추가
+
+```jsx
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      { "fileName": true, "displayName": true, "pure": true }
+    ]
+  ]
+}
+```
