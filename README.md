@@ -35,5 +35,4 @@
 
 ## [Go](https://github.com/kimhan0421/TIL/tree/master/GO)
 ## Clone
-- 노마드
-- 인스타클론
+- 노마드_인스타클론
