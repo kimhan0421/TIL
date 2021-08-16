@@ -11,6 +11,10 @@
 		BEANS_GTAMM_PER_SHOT: number = 7;
 
 		coffeeBeans: number = 0;
+
+		constructor(coffeeBeans: number) {
+			this.coffeeBeans = coffeeBeans;
+		}
 		makeCoffee(shots: number): CoffeeCup {
 			if (this.coffeeBeans < shots * this.BEANS_GTAMM_PER_SHOT) {
 				throw new Error('Not enough coffee beans!');
@@ -22,8 +26,6 @@
 			};
 		}
 	}
-
-	coffeeBeans += 3 * BEANS_GTAMM_PER_SHOT;
-	const coffee = makeCoffee(2);
-	console.log(coffee);
+	const maker = new CoffeeMaker(32);
 }
+
