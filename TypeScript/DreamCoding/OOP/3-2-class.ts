@@ -5,9 +5,7 @@
 	};
 
 	class CoffeeMaker {
-		// class에서는 let, const, function을 명시하지 않아도 됨.
-		// 멤버변수에 접근할 때는 this.으로 접근함
-		// class에서는 constructor가 존재함
+		
 		BEANS_GTAMM_PER_SHOT: number = 7;
 
 		coffeeBeans: number = 0;
