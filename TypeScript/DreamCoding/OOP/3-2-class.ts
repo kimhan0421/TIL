@@ -5,9 +5,7 @@
 	};
 
 	class CoffeeMaker {
-		
 		BEANS_GTAMM_PER_SHOT: number = 7;
-
 		coffeeBeans: number = 0;
 
 		constructor(coffeeBeans: number) {
