@@ -22,8 +22,5 @@
 			};
 		}
 	}
-
-	coffeeBeans += 3 * BEANS_GTAMM_PER_SHOT;
-	const coffee = makeCoffee(2);
-	console.log(coffee);
+	const maker = new CoffeeMaker();
 }
